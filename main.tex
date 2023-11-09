@@ -1,0 +1,629 @@
+\documentclass{article}
+
+%Packages
+\usepackage[letterpaper, top=0.9in, bottom=0.9in, left=1.15in, right=1.15in, heightrounded]{geometry}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsthm}
+
+\usepackage{tabto}
+\usepackage{indentfirst}
+\usepackage[square,numbers]{natbib}
+\usepackage[T1]{fontenc}   
+
+\usepackage{footmisc}
+\usepackage{fixfoot}
+
+%Bibliography
+\bibliographystyle{abbrvnat}
+
+%Code displaying
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[square,numbers]{natbib}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+%Index
+\usepackage[hidelinks]{hyperref}
+\usepackage{imakeidx}
+\makeindex[columns=3, title=Indice, intoc]
+
+%Lengths and spacing
+\setlength{\skip\footins}{20pt}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{1pt}
+\newcommand\mytab{\tab \hspace{-5.5cm}}
+\renewcommand{\baselinestretch}{1.15}
+
+%Fixed footnotes
+\DeclareFixedFootnote{\rep}{Definiciones en Anexo 1.}
+\DeclareFixedFootnote{\dev}{Mas detalles en el Anexo 2.}
+\DeclareFixedFootnote{\des}{Diseno del modelo y la red neuronal disponible en el Anexo 3.}
+
+%Fix hyphenation
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graphicspath{./pics/}
+\title{Proyecto Final CFGS Desarrollo de Aplicaciones Muliplataforma}
+\author{Carlos Manso}
+\date{2023 - 2024}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\clearpage\tableofcontents
+\thispagestyle{empty}
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%% INTRODUCCION %%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+\subsection{Comentario del autor}
+Esta documentacion esta pensada para que cualquier persona pueda entender el desarrollo en terminos generales, por lo que los tecnicismos o anglicismos que se utilizan estaran definidos en uno de los anexos. No obstante, cabe mencionar que se da por sentado un conocimiento minimo de informatica en el lector para poder entender al completo todas las explicaciones que se desarrollan a continuacion, ya que abarca tanto el objetivo del proyecto y sus motivaciones y planificaciones, como su puesta en marcha, funcionamiento y guias para desarrolladores y usuarios.
+
+\subsection{Origen}
+El proyecto surge despues de una intensa busqueda de ideas entre las que se encuentran proyectos como una aplicacion de estudios, un videojuego, un motor gr\`afico, una aplicacion de memorizacion... Todos ellos proyectos que me atraian tanto para su uso posterior como para realizar su desarrollo.
+
+El proyecto en si se trata, en su forma mas conceptual, de una inteligencia artificial capaz de predecir un \textit{kanji}\rep japon\`es a traves de su imagen, ya sea caligrafiado o impreso, y devolverte dicho kanji en texto copiable para poder usarlo, buscarlo, o reconocerlo con mayor facilidad.
+
+El proyecto que les muestro a continuacion no ha tenido un gran cambio en el desarrollo y las metas que se pretendian seguir con el mismo, manteniendose bastante fiel a la idea original, aunque si que se han tenido que adaptar ciertos aspectos que se comentaran mas adelante en esta memoria.
+
+\subsection{Motivacion}
+Personalmente disfruto del ambito del \textit{data science}\rep  los idiomas, y desarrollar mis propias herramientas en la medida de lo posible, por lo que desarrollar una utilidad como la descrita era un paso logico a tomar en algun momento. Como estudiante de japones puedo darle una gran utilidad a esta herramienta, y como yo es posible que otra gente tambien. Es ademas algo muy extendible en el futuro, tanto en el idioma objetivo a traves de ampliar sus funcionalidades, como extendiendola a otros idiomas.
+
+
+%%%%%%%%%%%%%%%%%%%% CONTEXTUALIZACION %%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\section{Contextualizacion}
+
+\subsection{Necesidad}
+En los ambitos personal y social, una herramienta capaz de transformar la imagen de un kanji complejo en un caracter \textit{UNICODE}\rep  legible por cualquier persona y copiable en un dispositivo, es de gran utilidad para el estudio del idioma. Algunos estilos de escritura o ciertos documentos antiguos no guardan casi ningun parecido con la forma de escribir los kanji a dia de hoy, especialmente a la hora de comparar caligrafia humana con caracteres digitales.
+
+Uno de los problemas mas comunes para los estudiantes de este idioma es, precisamente reconocer kanjis, ya que se trata de un alfabeto de mas de 3000 caracteres distintos, cada uno con varias lecturas, y que pueden combinarse para formar significados y lecturas nuevas. 
+
+Aunque las combinaciones son mucho mas complejas de cotejar y requieren de un estudio y una comprension extensa de los caracteres individuales, facilitar la tarea de reconocerlos individualmente supone una gran herramienta, ya que en numerosas ocasiones, poder reconocerlos por separado es suficiente para contextualizar la combinacion y conocer el significado de esta.
+
+Es en este punto donde entra en juego mi proyecto, ofreciendo una forma sencilla de reconocer caracteres kanji que el usuario pueda ver en cualquier tipo de multimedia o en formato fisico. A traves de una captura de pantalla o una fotografia del caracter, podra obtenerlo en un formato digital mucho mas comprensivo y versatil para su identificacion o para buscar informacion al respecto.
+
+\subsection{Objetivo}
+El proyecto esta, logicamente, limitado en cierta forma tanto por el tiempo disponible para su desarrollo como por la capacidad de computacion a la que tengo acceso en la actualidad para el entrenamiento del modelo, y, aunque existen \textit{IAs}\rep a dia de hoy muy perfeccionadas como puede ser la de Google, parte del objetivo del proyecto es el de crear la propia herramienta desde cero, introduciendome en un nuevo ambito de la programacion. 
+
+No obstante, la mayoria de recursos con una funcionalidad similar a la que yo presento, no disponen de una aplicacion particular para ello, no son facilmente escalables, o requieren que el propio usuario intente plasmar el caracter a mano para su reconocimiento. Esto ultimo supone un problema, ya que por una parte, ciertos kanjis son demasiado complejos para ser copiados a mano por el usuario, y adicionalmente, estos metodos de reconocimiento tienen en cuenta el orden de los trazos, esto quiere decir, que por como son las reglas caligraficas del kanji, intentar plasmar el mismo caracter variando el orden de los trazos puede dar diferentes resultados.
+
+El objetivo general es, por tanto, generar una IA y una aplicacion a traves de las cuales se pueda introducir la imagen de un kanji aislado, y nos devuelva el kanji de la imagen en un caracter UNICODE copiable.
+
+%%%%%%%%%%%%%%%%%%%% OBJETIVOS %%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\section{Objetivos especificos}
+
+Los objetivos especificos del proyecto se desgranan en los siguientes puntos:
+
+\begin{itemize}
+    \item Realizar un modelo de Inteligencia Artificial capaz de reconocer caracteres para entender el funcionamiento elemental de un algoritmo de reconocimiento de caracteres.
+    \item Realizar un modelo capaz de entrenar y reconocer caracteres japoneses, tanto escritos a mano como digitales con un porcentaje de acierto suficiente como para ser de utilidad.
+    \item Crear una \textit{API}\rep capaz de recibir imagenes de kanjis y devolver sus predicciones.
+    \item Alojar la API en un servidor privado y exponerla a internet para poder consumir el servicio desde diferentes dispositivos en cualquier lugar donde dispongamos de acceso a internet.
+    \item Realizar una aplicacion movil o de escritorio con la que podamos tomar o cargar imagenes que podamos enviar despues al \textit{WebService}\rep que hemos creado y nos muestre las predicciones a traves de una interfaz de usuario comoda.
+\end{itemize}
+
+Las tareas a desarrollar se describen con mayor precision en la seccion a continuacion, y todos los detalles sobre los procesos utilizados, resultados, codigo fuente, etc. Se explicara de forma mas exhaustiva en los anexos dedicados a ello.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% PROYECTO FINAL %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%% TAREAS %%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\section{Tareas}
+
+Respecto a las tareas a realizar a nivel de proyecto para poder llevar a cabo los objetivos mencionados en el punto anterior, planteamos cuatro puntos bien diferenciados, que se desgranan a su vez en diferentes subtareas. A continuacion podemos ver una explicacion general de la tarea y los diferentes procesos necesarios en su ejecucion a lo largo del desarrollo del proyecto:
+\begin{comment}
+\begin{itemize}
+    \item Realizar un modelo de prueba. Realizar un pequeno proyecto de investigacion implementando un sistema de reconocimiento de caracteres u \textit{OCR}\footnotemark[1] para entender el funcionamiento de estas IA conceptualmente.
+    \item Entrenamiento del modelo. A traves de un \textit{dataset}\footnotemark[1] de kanjis de terceros, crear un modelo capaz de reconocer los principales kanji del Japones.
+    \item Implementacion del modelo para su uso. Creando una API para poder ejecutar la IA sin necesidad de interactuar con el codigo fuente.
+    \item Alojamiento de la API en un servidor. Para poder consumir la API a traves de internet, y por tanto en cualquier dispositivo y en cualquier lugar con conexion a internet.
+    \item Creacion de una \textit{GUI}\footnotemark[1]. Creando una interfaz de usuario en Android o PC capaz de capturar imagenes o cargarlas desde memoria y enviarlas para solicitar predicciones a la IA.
+\end{itemize}
+\end{comment}
+
+\subsection{Modelo de prueba}
+La idea es realizar un modelo basico de inteligencia artificial capaz de clasificar correctamente imagenes de numeros para familiarizarme con el lenguaje y con los tipos y formatos de datos con los que tendre que trabajar durate el desarrollo. 
+    
+Para realizar este punto, se busca una guia paso a paso sobre como realizar una IA muy basica llamada \textit{Clasificador KNN}\rep de reconocimiento de digitos, sin embargo, como no es el punto original de este proyecto, no vamos a desarrollar en detalle el proceso de creacion.
+Esencialmente, el algoritmo se encarga de realizar predicciones basadas en analizar los datos que se le pasan y los datos de los que dispone en su dataset local, mirando las instancias mas cercanas, y calculando una media, prediciendo aquel o aquellos resultados mas cercanos al dato analizado. Este proceso lo realiza cada vez que se le solicita una prediccion.
+    
+En las pruebas realizadas se registro un ratio de acierto del 100\%, con 12 imagenes tanto pertenecientes al dataset como dibujadas por el usuario, con una certeza de acierto de en torno al 80\% en sus niveles mas bajos.
+
+
+\subsection{Entrenamiento del modelo}
+Una vez finalizada la prueba de concepto, se comenzaria con el desarrollo del modelo, esto es, su proceso de creacion, entrenamiento, validacion, uso, etc. Para ello debemos subdividir esta seccion en varias partes que, no obstante, estan interrelacionadas; es decir, las diferentes subtareas en las que se basa el entrenamiento del modelo, aun siendo tareas claramente definidas, muchas de ellas se llevan a cabo al mismo tiempo y pueden verse afectadas por las otras. A continuacion se explica brevemente cada una de estas subtareas:
+
+\subsubsection{Eleccion de librerias}
+Aunque este punto se realiza a lo largo de todo el desarrollo, hay ciertas librerias basicas de las que debemos partir. Para ello debemos informarnos correctamente con respecto a que tecnologias y procesos vamos a realizar en nuestro modelo, que funcionalidades vamos a desarrollar y de que herramientas necesitaremos disponer. No obstante, a lo largo del desarrollo podremos ir necesitando librerias adicionales con las que no hayamos contado en primer lugar que habra que tener en cuenta a la hora de documentar el proyecto.
+
+En nuestro caso, se contempla inicialmente la posibilidad de utilizar PyTorch, una libreria de IA bastante conocida y con amplia trayectoria, pero tras navegar a traves de la documentacion e informarme a traves de diversas fuentes, se decide finalmente utilizar la libreria de Tensorflow, debido a, entre otros motivos, una mayor facilidad de uso de su API, una documentacion mas extensa y explicativa, y mayor uso entre los desarrolladores actuales de IAs, lo que se traduce en mayor contenido e informacion respecto a los diversos problemas y opciones con las que nos enfrentamos durante el desarrollo.
+
+Adicionalmente a la libreria de Tensorflow, conocemos ciertas librerias que necesitaremos usar con seguridad a lo largo del desarrollo como PIL(Pillow) para manejo de imagenes, matplotlib para generacion de graficos informativos, Keras como anexo a Tensorflow para el entrenamiento, numpy para creacion de matrices y otras colecciones con el poder computacional que ofrece C, y muy importante, torch-directml para integrar entrenamientos de IA con graficas de AMD a traves de Direct-X12.
+
+\subsubsection{Busqueda del dataset}
+Parte esencial de la creacion de una IA, es utilizar un dataset adecuado, por lo que, a falta de capacidad y tiempo para generar uno propio, debemos buscar un dataset ya existente con los contenidos que necesitemos y, de ser necesario, adaptarlo a nuestras necesidades.
+
+La eleccion del dataset se ve condicionada por la escasez de ellos. Esencialmente, podemos encontrar dos datasets distintos en todo internet, el primero siendo Kuzushiji-Kanji, que es el que finalmente se utilizara en este proyecto tras sopesar ventajas e inconvenientes, y ELTCDB. Aunque el primero es un dataset mucho mas desfasado, incompleto y desbalanceado, viene muy convenientemente clasificado y listo para su uso, mientras que el segundo viene subdividido en diversos sets de caracteres, y con sus imagenes convertidas en formato binario anexadas unas detras de otras, que habria que tratar correctamente bajo estrictas instrucciones proporcionadas por el AIST (National Institute of Advanced Industrial Science and Technology). 
+
+Debido a esto, aunque la eficacia de la IA se vera mermada por la integridad del dataset, la implementacion del modelo puede hacerse casi de forma directa a traves de la API de Keras.
+Para compensar este desbalance del dataset, se crean dos programas .py. En el primero, generamos, en base a diferentes fuentes en japones, una imagen acorde al formato de las imagenes de nuestro dataset de cada uno de los kanji pertenecientes al JLPT y la anadimos al dataset. En el segundo, recorreremos de nuevo nuestro dataset y eliminaremos de este todas las carpetas e imagenes de kanjis que se repitan menos de 5 veces, ya que consideramos que es un minimo a partir del cual el hecho de que ese kanji exista en el modelo, produce mas falsos resultados que resultados correctos sin importar las correcciones que intentemos aplicarle.
+
+\subsubsection{Diseno de la red neuronal}
+Es importante realizar un estudio en profundidad de los disenos de \textit{redes neuronales}\rep recomendables para la funcionalidad que estamos buscando, y, posteriormente, analizar la \textit{validacion}\rep y realizar pruebas de los modelos generados por esta red para poder ajustar sus parametros acorde con el dataset que le vamos a proporcionar.
+
+En este proyecto se opta por una red convolucional que sigue un esquema bastante extendido y recomendado para IAs cuyo objetivo es OCR, como es el caso, consistente en varias capas convolucionales y de pooling alternadas, seguidas por fully conected. Para cualquier informacion relativa a este punto, los detalles de este diseno estan documentados en profundidad en los anexos.
+
+\subsubsection{Diseno del entrenamiento}
+Una vez decidida la tecnologia y obtenido el dataset, debemos plasmar en un archivo .py nuestro metodo de entrenamiento. En el no solo definiremos el diseno de nuestra red neuronal, sino que cargaremos nuestro dataset, definiremos una \textit{funcion de perdida}\rep , elegiremos nuestro \textit{optimizador}\rep, le daremos los parametros de entrenamiento, definiremos donde se guarda el modelo, etc. Como en el punto anterior, toda la informacion relativa al diseno de las diferentes partes que componen la creacion del modelo estan disponibles en los anexos.
+
+\subsubsection{Validacion}
+Con cada entrenamiento, es convencion en desarrollo de IA realizar una validacion de este, para ver que progresa como es debido y los resultados avanzan en la direccion adecuada, hasta llegar a una validacion con la que estemos satisfechos que nos indique que el modelo que hemos entrenado esta listo para su uso. En este punto debemos desarrollar una herramienta que compruebe tanto con datos del dataset, como externos a el, que las predicciones que realiza de los datos que le pasamos son acertadas con suficiente certeza y el suficiente numero de veces.
+
+La idea detras de este desarrollo es poder obtener informacion precisa sobre el rendimiento de nuestra IA, de forma que podamos ajustar sus parametros en base a ensayo-error (practica muy comun en entrenamiento de IAs) hasta dar con unos ajustes cuyo rendimiento sea satisfactorio, para poder entrenar un numero considerable de epocas nuestra IA, hasta que los datos proporcionados por este mismo desarrollo muestren un estancamiento del ratio acierto/error. 
+
+Cabe mencionar que es en este punto donde debemos dejar de entrenar la IA, ya que forzarla a continuar un numero excesivo de epocas para conseguir mejoras marginales, puede generar el llamado \textit{overfitting}\rep, que causara un mayor numero de falsos resultados a la hora de trabajar con datos ajenos al dataset original.
+
+\subsection{Implementacion}
+
+En esencia, debemos encargarnos de que nuestra IA pueda ser utilizada accediendo a ella sin necesidad de ejecutar manualmente un archivo .py (como hacemos con nuestra validacion), y que los datos que esta genera, puedan ser recibidos e interpretados por otras herramientas en lugar de ser impresos en una consola. Para ello:
+
+\subsubsection{Configuracion de los metodos}
+Siguiendo la documentacion oficial de la libreria que utilicemos, debemos definir los parametros que la API desea recibir, el protocolo utilizado, la ruta donde desea recibirlos, y demas configuraciones necesarias para despues poder consumir esa funcionalidad a traves de \textit{Postman}\rep (en local, para pruebas) o a traves de internet.
+
+En este caso, tras todo el desarrollo de la IA, se hace una busqueda sobre las librerias con las que podemos proceder a crear la API. Se dedcide utilizar las librerias de FastAPI junto con Uvicorn. La libreria se encargara de permitirnos crear las funcionalidades que necesitemos para interactuar con nuestro codigo. La segunda se trata de una implementacion para Python de un servidor web ASGI, lo que nos permitira acceder a el a traves de una red, por protocolo HTTP.
+
+Como comentamos, configurada la API y una vez levantado el WebService a traves de uvicorn, comprobamos que todos estos metodos y la configuracion del servicio funcionen correctamente, intentando realizar una request a traves de Postman. Una vez consigamos que el HTTP response devuelto sea satisfactorio, aunque no tengamos nuestro resultado, confirmaremos que la configuracion de estos puntos es la correcta, y necesitara poca o ninguna configuracion extra de aqui en adelante.
+
+\subsubsection{Configuracion del resultado}
+Una vez desarrollada correctamente la configuracion de la API, falta que la funcionalidad que esta desarrolle se encargue de cargar los datos necesarios para utilizar nuestra IA entrenada, y que nos devuelva los datos en el formato correcto.
+
+Sera trabajo de otras herramientas utilizadas como procesar la informacion enviada por nuestra API, sin embargo el formato en el que esta envie los datos debe ser algo legible y facilmente procesable, por lo que nuestro resultado se configura para que devuelva un .JSON formateado de forma especifica para su posterior lectura.
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[title=Formato del JSON de respuesta., numbers=none]
+    {
+      "result": [
+        {
+        "character": "kanji1",
+        "certainty": "0.5"
+        },
+[...]
+        {
+        "character": "kanji5",
+        "certainty": "0.04"
+        }
+      ]
+    }
+\end{lstlisting}
+\end{minipage}
+
+\subsection{Alojamiento}
+Uno de los objetivos de este proyecto es poder consumir la IA a traves de un WebService expuesto a internet, por lo que uno de los pasos a seguir sera configurar un servidor privado donde alojar la API y exponer sus funcionalidades a internet. Para realizar este punto, debemos seguir los siguentes pasos:
+
+\subsubsection{Montaje e instalacion del servidor}
+Se plantea usar como servidor una torre de bajo presupuesto. En este ordenador se instalara la version estable mas reciente de \textit{Linux Debian}\rep, sin ningun tipo de interfaz grafica ni utilidades extras a las propias del Sistema Operativo a parte de Docker, para la creacion de containers; Git, para descarga y manejo de repositorios; y NeoVim, una evolucion del editor de texto Vim (por mera comodidad) para gestionar los archivos de configuracion necesarios en el servidor
+
+La instalacion y configuracion inicial se realiza de la forma habitual, y una vez configurada la red y el acceso por \textit{SSH}\rep, desconectamos todos los perifericos y utilizamos una conexion SSH para acceder a el sin necesidad de compartir o utilizar perifericos extra, conectandonos desde el mismo sistema desde el que realizamos nuestro desarrollo.
+
+Esto es particularmente util ya que quitamos del servidor cualquier tipo de software que pueda consumir sus recursos de forma innecesaria. En su lugar, trabajamos con el mismo equipo con el que desarrollamos y configuramos todas las caracteristicas propias del codigo fuente, y a traves de una consola de comandos, modificamos y configuramos aquello que necesitemos en nuestro servidor de forma remota.
+
+\subsubsection{Networking}
+Para que el sistema que instalamos en el punto anterior sea un servidor, tenemos que realizar diversos ajustes de \textit{networking}\rep que, explicados en mayor profundidad en los anexos, consisten en asegurarnos una \textit{IP publica}\rep contactando con nuestro \textit{ISP}\rep, creando un punto de acceso fijo al que asignar nuestra \textit{IP dinamica}\rep, y asignandole a nuestro servidor una \textit{IP interna estatica}\rep en nuestra red local asignada a un \textit{dominio}\rep para que las conexiones del exterior siempre accedan al mismo punto.
+
+Legalmente, nuestro ISP tiene la obligacion de proveernos una IP publica, sacandonos del CGNAT en el que nos tengan. Por suerte, O2 (Telefonica) unicamente asigna IPs publicas a sus clientes, por lo que no se ha tenido que realizar ninguna accion al respecto.
+
+Tecnicamente, tambien tienen la obligacion de proveernos una IP estatica, sin embargo, al contrario que una IP dinamica publica como mencionamos anteriormente, esto no se contempla de forma gratuita, sino que se trata de un servicio de pago.
+
+Dado que para este proyecto ya disponemos de una IP publica, nos es suficiente para poder configurar el servidor a nuestro gusto. En primer lugar, se compra un dominio a traves de Namecheap.com (otterleek.com). A continuacion, nos registramos en NoIP.com, un servicio gratuito que se encarga de monitorizar nuestra IP y asignarle de forma dinamica un dominio DNS desde el que poder conectarte, cambiando la IP a la que este apunta cuando la IP cambia. En terminos generales, la IP publica que nos proporciona nuestro ISP se mantiene hasta que nuestro router se reinicia o pierde su conexion. Es entonces cuando el ISP cambia nuestra IP, noip.com lo detecta, y apunta el dominio que hemos solicitado a nuestra nueva IP. Ofrecen este servicio de forma gratuita con la condicion de confirmar una vez al mes que continuamos utilizando sus servicios.
+con nuestro WebService que podamos consumir a traves de esta direccion.
+
+Solucionado el problema de que podamos acceder a nuestra IP en cualquier momento que queramos independientemente de si ha cambiado o no, quedaria reasignar nuestro dominio al que hemos adquirido en Namechap. Para ello la propia pagina tiene unas opciones de configuracion DNS con las que podremos realizar estos cambios. Para nuestra IA crearemos un subdominio al que podremos enviar un HTTP request (kanji.otterleek.com) que apuntaremos al DNS facilitado por noip. Con esta configuracion ya tendriamos el networking listo para poder configurar un container con nuestro WebService que podamos consumir a traves de esta direccion.
+
+\subsubsection{Dockerizacion}
+Por ultimo, dentro de nuestro servidor, para que pueda convivir con mas aplicaciones y herramientas, instalaremos nuestra API en un \textit{container}\footnotemark[1] de docker y le asignaremos los puertos y la direccion web que nos interese, asegurandonos de que todo esta correctamente expuesto a internet y que el container es capaz de mantenerse activo sin mantenimientos adicionales.
+
+\noindent El proceso para esto es bastante simple. En nuestro directorio root del servidor, introducimos los comandos
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[numbers=none]
+mkdir Docker/Kanji-AI && cd $_
+nvim Dockerfile
+\end{lstlisting}
+\end{minipage}
+Esto creara un directorio donde almacenaremos toda la configuracion de nuestro container y un archivo Dockerfile donde definiremos los parametros de instalacion e inicializacion del container:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[numbers=none]
+FROM python:3.8
+WORKDIR /code
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./app /code/app
+CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "39000"]
+\end{lstlisting}
+\end{minipage}
+Para que el proyecto funcione correctamente debera instalar una serie de librerias que le pasamos en un archivo de texto llamado \textit{requirements.txt} como puede verse en el fichero anterior, que debemos crear con el siguiente contenido:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[numbers=none]
+fastapi>=0.68.0
+pydantic>=1.8.0
+uvicorn>=0.15.0
+numpy
+tensorflow
+pillow
+python-multipart
+matplotlib
+\end{lstlisting}
+\end{minipage}
+
+Este proceso creara una instalacion del container con las dependencias necesarias, sin embargo, necesitamos configurarlo correctamente para que al levantarse, se conecte correctmente con los puertos indicados, en la network adecuada, y de paso, a traves del protocolo HTTPS.
+
+Para esto debemos crear un \textit{docker-compose.yml}, aunque antes debemos realizar una correcta instalacion y configuracion de Traefik, un reverse-proxy y load-balancer integrado nativamente con Docker para permitirnos exponer a internet servicios desde nuestros containers. Como la configuracion de Traefik es compleja y extensa, y va mas alla del objetivo de esta documentacion, estara disponible una breve explicacion en los anexos.
+
+Una vez realicemos la correcta instalacion y configuracion de traefik, podremos crear el fichero mencionado anteriormente con el siguiente contenido:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[numbers=none]
+name: kanjiAI
+services:
+    kanjiAI:
+        build: .
+        image: kanji-AI
+        container_name: kanji-AI
+        working_dir: /code/app
+        command: "uvicorn main:app --host 0.0.0.0 --port 39000 --reload"
+        ports:
+            - "39000:39000"
+        volumes:
+            - .app:/code/app
+        restart: "unless-stopped"
+        networks:
+            - traefik-global-proxy
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.ai.rule=Host(`kanji.otterleek.com`)"
+            - "traefik.http.routers.ai.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.ai.entrypoints=https"
+            - "traefik.http.services.ai-service.loadbalancer.server.port=39000"
+networks:
+    traefik-global-proxy:
+        external: true
+        
+\end{lstlisting}
+\end{minipage}
+
+Tras realizar esta configuracion, unicamente nos quedaria abrir los puertos 39000 TPC y UDP correspondientes en nuestro router accediendo a el a traves de nuestra puerta de enlace y utilizando el software que los propios router implementan, incluir nuestro desarrollo en una carpeta llamada \textit{app/} (como puede verse en los archivos de configuracion) dentro de nuestra carpeta de configuraciones del container, y levantar el container en modo detached para que el proceso del container no inutilice nuestra consola.
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[numbers=none]
+docker compose up -d
+\end{lstlisting}
+\end{minipage}
+Nuestra IA estaria en este punto lista para utilizarse a traves de internet, y podemos comprobar su correcto funcionamiento haciendo un multipart HTTP request al dominio mencionado anteriormente (https://kanji.otterleek.com) con una imagen adjunta. La imagen llegara entonces a nuestro WebService y nuestro desarrollo realizara una prediccion de los cinco kanjis mas posibles en esa imagen, devolviendonos un HTTP response en el formato JSON indicado con anterioridad en esta documentacion con dichos kanji.
+
+\subsection{Creacion de la interfaz}
+
+Respecto a la creacion de la interfaz, simplemente distinguiremos dos desarrollos al respecto, el diseno de la interfaz incluyendo sus funcionalidades, disposicion y la interaccion entre sus ventanas por un lado, y el desarrollo para contactar con el WebService y procesar sus respuestas por otro.
+
+\subsubsection{FrontEnd}
+La intencion original es que la app sea extremadamente simple, disponiendo de dos funcionalidades basicas, capturar una imagen (en caso de dispositivos con camara, de lo contrario solo implementariamos una funcionalidad), y cargar una imagen desde la memoria del dispositivo.
+
+Una vez cargada, mostrar la imagen a enviar para asegurarnos de que se ve correctamente y el caracter esta correctamente acotado en la imagen para solicitar su prediccion, junto con dos botones, uno para eliminar la imagen seleccionada y repetir el proceso, y otra para contactar con el webservice, que una vez pulsada, esperara la respuesta de este, y nos llevara a una tercera ventana donde se muestre la prediccion junto con el boton de salida.
+
+Para todo este proceso, tanto la explicacion del codigo como de la ejecucion son demasiado especificos y aportan demasiado poco a la memoria del proyecto, por lo que considero que lo unico a explicar en este apartado es que hemos decidido utilizar Flutter, un framework de Dart para diseno de aplicaciones multiplataforma que permite reutilizar nuestro codigo con minimas modificaciones para crear apliacaciones en diferentes sistemas y plataformas.
+
+\subsubsection{BackEnd}
+Respecto a la funcionalidad que se desarrolle por debajo de la interfaz, nos centraremos casi de forma exclusiva en poder enviar la imagen al webservice correctamente, y ser capaces de recibir y procesar su respuesta para mostrarla por pantalla.
+
+Hay diversas utilidades para hacer que el dispositivo cargue una imagen de la galeria o acceda a la camara para capturar una imagen, por lo que no nos vamos a detener en la explicacion de esto, sin embargo, la parte compleja de este desarrollo consiste en realizar satisfactoriamente una HTTP multipart request que nos permita enviar la imagen a nuesto WebService, y recibir y formatear su respuesta correctamente.
+
+Como esta parte consiste fundamentalmente en dos snippets de codigo, la explicacion la realizaremos aqui, ya que no es necesario dedicar un Anexo para ello. Flutter implementa el envio de estas requests, y hemos utilizado la siguiente funcion para solicitar una prediccion a nuestra IA:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=java]
+Future<Prediction> requestPredictionAPI(File kanji, BuildContext context) async{
+    final request = http.MultipartRequest('POST', Uri.parse('https://kanji.otterleek.com/'));
+    request.files.add(await http.MultipartFile.fromPath('file', path!));
+    final response = await request.send();
+    if (response.statusCode==200){
+        String b = (await http.Response.fromStream(response)).body;
+        return Prediction.fromJson(jsonDecode(b));
+    }
+    else{
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Unavailable())); 
+        throw Exception('Kanji AI Predict WebService is unavailable');
+    }
+}
+\end{lstlisting}
+\end{minipage}
+Donde Predictions es una clase que recoge la HTTP response y la transforma en consecuencia para poder acceder a los datos de respuesta desde el codigo mas adelante:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=java]
+class Prediction{
+    final List<Content> content;
+    Prediction({
+        required this.content,
+    });
+    factory Prediction.fromJson(Map<String, dynamic> json) => Prediction(
+        content: List<Content>.from(json['result'].map((x) => Content.fromJson(x))));
+    Map<String, dynamic> toJson() => {
+        "result": List<dynamic>.from(content.map((e) => e.toJson()))
+  };
+}
+
+class Content {
+    final String character;
+    final double certainty;
+    Content({
+        required this.character,
+        required this.certainty
+    });
+    factory Content.fromJson(Map<String, dynamic> json) => Content(character: json['character'], certainty: json['confidence']);
+  
+    Map<String, dynamic> toJson() => {
+        "character": character,
+        "certainty": certainty
+    };
+}
+\end{lstlisting}
+\end{minipage}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% PUNTOS DE MEJORA %%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section{Futuras mejoras}
+
+Aunque la realizacion de este proyecto es satisfactoria, debido a la falta de tiempo, capacidades, u otras variables, algunos aspectos de este proyecto tienen una amplia capacidad de mejora. En este punto trataremos brevemente futuras mejoras a desarrollar para nuevas versiones. Mencionar antes de nada, que el objetivo de este apartado no es para presentar aspectos con los que ampliar la funcionalidad de la aplicacion, sino para elaborar puntos de mejora en el rendimiento, la facilidad de uso, etc. considerables que no se han podido aplicar por diversas circunstancias.
+
+\begin{itemize}
+    \item \textbf{Utilizar data augmentation}: El uso de data augmentation puede mejorar mucho la capacidad predictiva de la IA en casi cualquier escenario, sin embargo, no se ha implementado porque para esto se requiere de un poder computacional y un tiempo de entrenamiento muy elevado.
+    \item \textbf{Utilizar segmentacion}: Realizar segmentacion en las imagenes haria que no fuese necesario cuadrar en el centro de la imagen un kanji y asegurarnos de que esta lo mas aislado posible de otros elementos. Esta condicion es una de las que mas entorpecen el funcionamiento y la experiencia de esta herramienta, por lo que es un punto a considerar muy importante, sin embargo no se ha implementado por la dificultad que supondria la generacion del algoritmo necesario para reconocer la parte necesaria y reformatear la imagen en consecuencia.
+    \item \textbf{Mejorar el procesado de imagenes}: La IA es propensa a fallos cuando las fotografias se realizan en escenarios de poca luz debido al poco rango dinamico de los dispositivos, la cantidad de ruido, y el poco contraste presente en las imagenes tomadas en estas circunstancias. Un procesamiento de la imagen mas exhaustivo, que analice la cantidad de luz, el contraste de la escena, y sea capaz de proveer un kanji en el mayor numero de condiciones desfavorables posibles es un aspecto importante a tener en cuenta. 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%% RECURSOS HUMANOS %%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section{Recursos humanos}
+
+Los recursos humanos del proyecto son virtualmente inexistentes. El proyecto se desarrolla de forma unipersonal, gestionando mi tiempo y mis recursos para la conclusion de los objetivos marcados en este proyecto. 
+
+Unicamente cabe destacar la ayuda puntual de companeros de clase, de profesion, y personal docente del centro que se vera reflejada en el anexo de agradecimientos.
+
+
+
+%%%%%%%%%%%%%%%%%%%% RECURSOS MATERIALES %%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Recursos materiales}
+
+\noindent El detalle de todos los recursos materiales utilizados en este proyecto consiste en:
+\begin{itemize}
+    \item Un dominio (en este caso otterleek.com)
+    \item Un smartphone donde realizar pruebas de la aplicacion movil
+    \item Un ordenador donde se desarrollara el proyecto junto con sus perifericos compuesto por:
+    \begin{itemize}
+        \item CPU AMD Ryzen5 5600 
+        \item GPU AMD Radeon 6600 
+        \item RAM Viper 32Gb DDR4 
+        \item SSD M.2 500Gb Crucial
+        \item Otros componentes (PSU, Fuente de Alimentacion, Caja...)
+        \item Teclado Logitech MX Keys
+        \item Raton Logitech MX Master M3s
+        \item Monitores AOC 24G2U (x2)
+    \end{itemize}
+    \item Un servidor compuesto por:
+    \begin{itemize}
+        \item CPU Intel i3 2120
+        \item RAM Kingston 6Gb DDR
+        \item SSD SATA3 Kingston 160Gb
+        \item Otros componentes (PSU, Fuente de Alimentacion, Caja...)
+    \end{itemize}
+    \item Licencias:
+    \begin{itemize}
+        \item PyCharm Community Edition
+        \item Debian 12.2
+        \item Docker
+        \item Visual Studio Code
+        \item Postman
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+
+%%%%%%%%%%%%%%%%%%%% ANEXOS %%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Anexos}
+
+\subsection{Terminos tecnicos}
+\begin{itemize}
+    \item \textbf{Kanji}
+    \item \textbf{data science:}
+\end{itemize}
+
+\subsection{Informacion adicional externa}
+
+\subsection{Esquemas}
+
+\begin{itemize}
+    \item Diagrama UML: Casos de uso.
+    \begin{center}
+        \centering 
+        \includegraphics[width=0.7\textwidth]{pics/UseCases.png}
+    \end{center}
+    \item Diagrama UML: Estado.
+    \begin{center}
+        \centering 
+        \includegraphics[width=0.7\textwidth]{pics/State.png}
+    \end{center}
+    \item Diagrama UML: Secuencia.
+    \begin{center}
+        \centering 
+        \includegraphics[width=0.7\textwidth]{pics/Sequence.png}
+    \end{center}
+    \item Diagrama UML: Despliegue.
+    \begin{center}
+        \centering 
+        \includegraphics[width=0.7\textwidth]{pics/Deploy.png}
+    \end{center}
+    
+\end{itemize}
+
+\subsection{IA: Modelo y Neural Network}
+
+\subsection{Guia del desarrollador}
+
+\subsection{Guia del usuario}
+
+\newpage
+\subsection{Agradecimientos}
+Este proyecto no hubiese sido posible sin la incontable ayuda de muchas personas que me han ayudado en todos los ambitos, desde programacion con Python, hasta el apoyo emocional, por lo que no puedo terminar esta documentacion sin mencionarles y agradecerselo como es debido.\\
+
+Quiero dar las gracias en primer lugar a Nuria Valdes, que ha sido mi principal apoyo en la realizacion de este proyecto y a lo largo de todo el Ciclo Formativo para el que presento este documento. 
+No puedo agradecerte suficiente todo lo que me has ayudado y apoyado a lo largo de estos dos anos, gracias por estar siempre ahi, por escucharme, por entenderme, y por ser como eres.\\
+
+En segundo lugar, quiero dar las gracias a Jordi Amoros y Gerard Otero, que fueron quienes me introdujeron la idea de realizar algo con librerias de inteligencia artificial, y a Javier Villegas quien me ayudo a entender en profundidad las matrices y los distintos aspectos complejos de las librerias de Python utilizadas en el proyecto. A lo largo del desarrollo me han ofrecido ayuda, soluciones y explicaciones de todo tipo sin las que no hubiese podido obtener los resultados deseados. 
+Gracias chicos, por la idea, el apoyo y todas las ideas e informacion que me habeis aportado al respecto.\\
+
+En tercer lugar, agradecer a Vadim Peksdjfglks por toda la ayuda que me ha brindado en lo que respecta al networking de la aplicacion. Gracias a ella he podido configurar correctamente el servidor, dockerizar la aplicacion y exponerla correctamente, aprendiendo una gran cantidad de cosas de networking que desconocia al inicio de este proyecto. 
+No tienes mucha paciencia y a veces te explicas regular, pero no habria podido hacerlo ni hubiese aprendido la mitad sin tu ayuda.\\
+
+Finalmente, quiero agradecer en terminos generales a todo el equipo docente de IES Aramo y a las demas personas que me han apoyado en este proyecto, que de una u otra forma me han ayudado, ya sea con su apoyo u ofreciendome informacion y soluciones a mis problemas. Julio, como mi tutor de proyecto y profesor de programacion, asi como mis demas profesores, que han entendido mis circunstancias a lo largo del ciclo y me han facilitado las cosas todo lo posible; Silvia, Abel, Ignacio, Pablo y mis padres, como personas que me han apoyado a lo largo de estos anos, muchas gracias a todos.
+
+\newpage
+
+\section{Bibliografia}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% CURRENT WORKPOINT %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%% COMMENTS %%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+
+
+Comentar que al termino de esta prueba, el programa reconocia los numeros introducidos con una precision bastante alta, y una tasa de acierto del 100\% en 20 pruebas diferentes con datos no pertenecientes al dataset\footnotemark[1].
+
+La forma de enfocarlo ha sido el acostumbrarme a trabajar en un entorno poco familiar, como es el de \textit{data science} aprendiendo a adecuarme a las circunstancias y aprendiendo un ambito nuevo de la programacion que actualmente se encuentra en auge. Sin embargo, el objetivo de la aplicacion no es unicamente este sino que pretende tambien ser una herramienta de gran utilidad para quienes, como yo, se encuentran realizando estudios del lenguaje japones, por lo que creo que con un poco de desarrollo y tiempo puede llegar a convertirse en una herramienta que la comunidad de estudiantes del lenguaje use de forma consistente.
+
+Una vez finalizada la prueba de concepto y aprobado el proyecto, comienza el desarrollo de la IA. Inicialmente, se me recomienda utilizar la libreria PyTorch\footnotemark[1], con la que comienzo el proyecto, leyendo documentacion, creando el dataset, y empezando a disenar la red neuronal necesaria para el proyecto.
+
+Sin embargo, desarrollando el programa, la cantidad de utilidades y facilidad de uso, documentacion y guias de PyTorch es cuestionable para el nivel de conocimientos del que dispongo. Ademas de esto, PyTorch no soporta el entrenamiento de sus modelos a traves de GPUs\footnotemark[1] Radeon como la que yo dispongo, por lo que el entrenamiento del modelo se limita a la capacidad de mi CPU, y a consecuencia de esto se aumentaria considerablemente el tiempo necesario para ello.
+
+Llegados a este punto, se cambia la hoja de ruta, se desecha el codigo al completo, y se comienza de nuevo con la libreria de Tensorflow, que es el proceso que desarrollare con mayor detenimiento. Aunque el programa esta documentado a traves de comentarios explicativos, a continuacion explicare cual es el la logica detras del archivo de entrenamiento training.py.
+
+Desde el comienzo del archivo, en primer lugar, realizamos los imports necesarios, con sus correspondientes instalaciones a traves del gestor de paquetes pip\footnotemark[1], y creamos las variables que contienen el directorio del dataset, su tamano, el tamano de los batch\footnotemark[1], y las dimensiones vertical y horizontal de las imagenes en el dataset.\\
+A esto le siguen las variables que dividen el dataset original en dos sub-datasets, el de entrenamiento y el de validacion. El primero sera el que se use para crear el modelo, y el segundo para comprobar su precision, fallos, fiabilidad, etc. en las pruebas posteriores. Estos datasets se crean a traves de una funcion propia de Tensorflow que maneja las librerias y utilidades necesarias por debajo para devolver un objeto del tipo Dataset. Junto con estas, creamos la variable de etiquetas, que contendra todas las posibilidades de prediccion contenidas en nuestro dataset.\\
+Aunque en el codigo se encuentra comentado por el incremento en el tiempo de entrenamiento que hubiese supuesto utilizarlo, se crea un Senquential\footnotemark[1] de Keras que consiste en realizar un aumento de datos para mejorar la precision de la IA a traves de proporcionar informacion adicional al dataset rotando de forma aleatoria la imagen. Mas abajo se crea otro Sequential consistente en redimensionar la imagen al formato necesario por la IA para su analisis.\\
+Una de las partes mas importantes del proyecto, la creacion del modelo\footnotemark[2], que consiste en una variable almacenando un Sequential en cuyo interior se definen las capas que conforman la red neuronal que se encarga de todo el peso del proyecto. Esta se compone de, una vez redimensionada la imagen a traves del ultimo Sequential mencionado, tres capas convolucionales con un kernel con valor de 3, y con un filtro por valor de 16 en la primera y x2 en las consiguientes, con una funcion de activacion ReLU. Cada una de ellas seguidas por una capa de MaxPooling2D, y tras finalizar, una layer de Dropout con valor de 0.2, una capa de Flatten, una capa de FullyConnected con 128 salidas, otra DropOut, y otra FullyConnected cuyo valor de salida corresponde al numero de optiones de prediccion que tenga nuestra IA. Con esto, quedaria terminada la definicion del modelo, por lo que a continuacion, definimos el Optimizador (en este caso Adam, que tras varias pruebas parece ser con el que mejores rendimientos obtenemos), y un modelo de perdidas. Definidas estas tres variables, llamamos a la funcion de compile de Tensorflow, a la que le pasamos dichas variables para que cree un modelo listo para su entrenamiento.\\
+Procedemos entonces a definir una variable con las epocas que la IA, y otra que almacenara el modelo ya entrenado una vez acabe la funcion fit de Tensorflow, a la que le pasamos nuestro dataset de entrenamiento y le especificamos cuales van a ser nuestros datos de validacion, en este caso el dataset que hemos creado para ello, junto con las epocas que queremos entrenarlo.\\
+Con esto, nuestro programa de entrenamiento estaria 100\% completo. Unicamente comentar que tras esto, tenemos en el codigo ciertas variables y funciones enfocadas en mostrar dos graficas, una con la precision de nuestro entrenamiento y nuestra validacion, y otra con la perdida de ambas, todo ello a traves de la libreria Matplotlib\footnotemark[1].
+
+A parte lo mencionado, durante el desarrollo del entrenamiento y tambien posterior a el, nos encontramos tambien con ciertos problemas que resolver, detallados mas adelante en el apartado de Resolucion de problemas. 
+
+Continuando con la exlicacion del desarrollo de la IA, llegados a este punto y con la el modelo ya entrenado, entramos en una fase de validacion, en la que con imagenes de kanjis dibujados por terceros, es decir, fuera del dataset y de mayor dificultad, comprobamos de forma presencial el comportamiento de la IA para poder ajustar los parametros que la entrenan, como las epocas, la configuracion de capas, el optimizador...\\
+Para ello creamos el archivo validation.py en el que el procedimiento es cargar el modelo y las labels, y aplicar el siguiente codigo, que nos devuelve cinco predicciones por cada imagen que contengamos en el directorio guess/ junto con la seguridad de acierto que acompana a cada uno.\\
+Tras experimentar con los resultados en modelos con 10 epocas de entrenamiento, se decide la mejor configuracion para el modelo tal y como se ha descrito anteriormente, y se realiza un entrenamiento de 50 epocas, a partir del cual segun las graficas de progreso que habiamos implementado, podemos ver que los resultados se estabilizan y dejan de mejorar.
+
+
+\subsection{Metodologia}
+Aunque es un proyecto ambicioso, muchas de las partes de este son procedimientos basicos y comunes que, si bien tengo que aprender a usar, implementar, etc, una vez este hecho este paso, su implementacion no deberia ser demasiado costosa en terminos de tiempo o dificultad. 
+
+Dado que el tiempo disponible para este proyecto es escaso, hay que hacer ciertas concesiones y tomar prioridades en cuanto a desarrollo. Al no disponer de tiempo por las ma\~nanas por mi trabajo y las clases se desarrollan a lo largo de la tarde, los ratos libres, las clases convalidadas, las noches, los fines de semana y principalmente las vacaciones de Navidad y Semana Santa se utilizan para realizar el desarrollo. 
+
+La prioridad se centra en crear una inteligencia artificial con todos sus componentes capaz de  realizar las tareas que se esperan de ella. Una vez realizado este paso, lo sensato seria crear una API\footnotemark[1] que devuelva los resultados a traves de HTTP\footnotemark[1]. Por ultimo en la lista de prioridades, habra que crear una aplicacion que pueda consumir la API para ser utilizada por el publico general.
+
+\subsection{Justificacion}
+
+\footnotetext[1]{Definiciones en Anexo 1.}
+
+\section{Origen y contextualizacion}
+
+\section{Parte Tecnica}
+
+\subsection{Planificacion del proyecto}
+
+\subsubsection{Investigacion}
+\paragraph{Busqueda de ideas}\mbox{}\newline
+
+Como se ha comentado en la introduccion, algunas de las ideas para este proyecto habian sido tales como aplicaciones para seguimiento de estudios, videojuegos, motores graficos, aplicaciones para facilitar el estudio... Todas estas ideas se fueron descartando por viabilidad y en cierta medida tambien por mi interes subjetivo en llevarlas a cabo en comparacion con otras. Finalmente, y tras interesarme un poco por el tema e informarme sobre las bases del campo, la decision fue llevar a cabo el proyecto que estoy presentando en este documento.
+
+\paragraph{Informacion sobre el proyecto elegido}\mbox{}\newline
+\mbox{}\newline
+\textbf{Proyecto:} \mytab Inteligencia artificial de reconocimiento de kanjis.\newline\newline
+\textbf{Descripcion:} \mytab Se trata de un desarrollo full-stack\footnotemark[1] 
+consistente en una API alojada en un servidor privado, que recibe una imagen de un kanji, sea caligrafia o tipografia, y devuelve su prediccion como parte del back-end, y una aplicacion para enviar y recibir estos datos como parte de front-end.\newline\newline
+\textbf{Area:} \mytab Procesamiento de datos, Inteligencia artificial, Desarrollo de aplicaciones, APIs \newline
+
+\subsubsection{Planificacion}
+\paragraph{Informe tecnico}\mbox{}\newline
+
+El desarrollo consiste en una inteligencia artificial utilizando Python\footnotemark[1] con la libreria de Tensorflow\footnotemark[1].
+
+El diseno de las redes neuronales\footnotemark[1] se basa parte en ensayo-error, y parte en documentacion y consejo de gente experimentada en la materia. Con esta inteligencia artificial se guarda un modelo que se carga mas tarde para ofrecer el servicio de predicciones a traves de FastAPI\footnotemark[1]. Este servicio se aloja en un contenedor de docker\footnotemark[1] de mi servidor privado.
+
+A traves de HTTP se envia una imagen que la API editara para que disponga de las caracteristicas necesarias para su analisis por la IA.
+
+Por ultimo, un front-end creado con Flutter\footnotemark[1] sera el encargado tanto de enviar las imagenes, como de recibir los resultados, parsearlos, y mostrarlos por pantalla.
+
+
+
+
+
+\end{comment}
+
+\end{document}
+
